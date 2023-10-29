@@ -2,11 +2,15 @@
 # same set of numbers for each draw, or if it is better to use a randomly generated set of numbers. 
 # By default, this will use all your CPU cores/threads to make the calculation as quick as possible.
 # If you require something else you can change the number of threads in the code. 
+
 # Note: The code is set up to run 100.000.000 iterations, which will take a long time if you have a slow computer!
 # The number of iterations can also be changed in the code.
 
 # Yes I am aware that I am mixing camelCase and the more pythonic snake_case. 
-# I learned to code with C# and camelCase, so it is a habit. Fix it yourself it bothers you.
+# I learned to code with C# and camelCase, so it is a habit. Fix it yourself it bothers you
+ 
+# Feel free to use this code. It is provided "As Is", with no restrictions of any kind.
+# Usage is at your own risk and responsibility.
 
 import random
 import multiprocessing
