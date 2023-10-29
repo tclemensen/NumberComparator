@@ -19,9 +19,8 @@ import numpy
 # Static numbers and the function to generate random numbers remain the same
 staticNumbers = [4, 6, 12, 19, 22, 27, 31]
 
-iterations=100000000                # Number of iterations. Change this if you have a slow CPU, or you will be waiting forever.
 threads=multiprocessing.cpu_count() # Number of threads. This defaults to the number of cores/threads you have.
-
+iterations=threads*2000000          # Number of iterations. This defaults to a million iterations per core/thread.
 
 # First Random Number Generator
 def rndNums(size, min_value, max_value):
@@ -55,8 +54,8 @@ def compare_lotto_numbers(seed, x_total, y_total, result_queue):
     y = 0
 
     for _ in range(seed):
-        lottoNumbersDraw = rndNums(7, 1, 32)
-        lottoNumbersPlay = rndNums2(7, 1, 32)
+        lottoNumbersDraw = rndNums(7, 1, 35)
+        lottoNumbersPlay = rndNums2(7, 1, 35)
 
         rndResult = areArraysIdentical(lottoNumbersDraw, lottoNumbersPlay)
         if rndResult:
