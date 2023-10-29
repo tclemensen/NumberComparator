@@ -7,7 +7,7 @@
 # The number of iterations can also be changed in the code.
 
 # Yes I am aware that I am mixing camelCase and the more pythonic snake_case. 
-# I learned to code with C# and camelCase, so it is a habit. Fix it yourself it bothers you
+# I learned to code with C# and camelCase, so it is a habit. Fix it yourself if this bothers you
  
 # Feel free to use this code. It is provided "As Is", with no restrictions of any kind.
 # Usage is at your own risk and responsibility.
@@ -16,11 +16,13 @@ import random
 import multiprocessing
 import numpy
 
-# Static numbers and the function to generate random numbers remain the same
+# Static numbers - You can use these or put in your own set of 7 numbers.
 staticNumbers = [4, 6, 12, 19, 22, 27, 31]
 
 threads=multiprocessing.cpu_count() # Number of threads. This defaults to the number of cores/threads you have.
-iterations=threads*2000000          # Number of iterations. This defaults to a million iterations per core/thread.
+iterations=threads*1000000          # Number of iterations. This defaults to one million iterations per core/thread.
+
+print("Running a total of ",iterations," iterations")
 
 # First Random Number Generator
 def rndNums(size, min_value, max_value):
@@ -54,7 +56,7 @@ def compare_lotto_numbers(seed, x_total, y_total, result_queue):
     y = 0
 
     for _ in range(seed):
-        lottoNumbersDraw = rndNums(7, 1, 35)
+        lottoNumbersDraw = rndNums(7, 1, 35) 
         lottoNumbersPlay = rndNums2(7, 1, 35)
 
         rndResult = areArraysIdentical(lottoNumbersDraw, lottoNumbersPlay)
