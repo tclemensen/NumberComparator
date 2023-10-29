@@ -1,9 +1,25 @@
+# This program is intended to try to determine whether it is a higher chance of winning the lotto by using the 
+# same set of numbers for each draw, or if it is better to use a randomly generated set of numbers. 
+# By default, this will use all your CPU cores/threads to make the calculation as quick as possible.
+# If you require something else you can change the number of threads in the code. 
+# Note: The code is set up to run 100.000.000 iterations, which will take a long time if you have a slow computer!
+# The number of iterations can also be changed in the code.
+
+# Yes I am aware that I am mixing camelCase and the more pythonic snake_case. 
+# I learned to code with C# and camelCase, so it is a habit. Fix it yourself it bothers you.
+
 import random
 import multiprocessing
+import numpy
 
 # Static numbers and the function to generate random numbers remain the same
 staticNumbers = [4, 6, 12, 19, 22, 27, 31]
 
+iterations=100000000                # Number of iterations. Change this if you have a slow CPU, or you will be waiting forever.
+threads=multiprocessing.cpu_count() # Number of threads. This defaults to the number of cores/threads you have.
+
+
+# First Random Number Generator
 def rndNums(size, min_value, max_value):
     array = []
     while len(array) < size:
@@ -13,6 +29,14 @@ def rndNums(size, min_value, max_value):
     array.sort()
     return array
 
+# Second Random Number Generator. I thought it would be a good idea to get the random numbers from separate sources
+# I don't know if it matters, but here it is. 
+def rndNums2(size,min_value,max_value):
+    array=[]
+    array=numpy.sort(numpy.random.randint(min_value,max_value,size))
+    return array
+
+# Checking to see if the arrays are identical
 def areArraysIdentical(array1, array2):
     if len(array1) != len(array2):
         return False
@@ -21,13 +45,14 @@ def areArraysIdentical(array1, array2):
             return False
     return True
 
+# Function to generate and compare and count draws
 def compare_lotto_numbers(seed, x_total, y_total, result_queue):
     x = 0
     y = 0
 
     for _ in range(seed):
         lottoNumbersDraw = rndNums(7, 1, 32)
-        lottoNumbersPlay = rndNums(7, 1, 32)
+        lottoNumbersPlay = rndNums2(7, 1, 32)
 
         rndResult = areArraysIdentical(lottoNumbersDraw, lottoNumbersPlay)
         if rndResult:
@@ -43,8 +68,8 @@ def compare_lotto_numbers(seed, x_total, y_total, result_queue):
 
 if __name__ == "__main__":
     try:
-        num_simulations = 10000000
-        num_processes = multiprocessing.cpu_count()
+        num_simulations = iterations
+        num_processes = threads
 
         with multiprocessing.Manager() as manager:
             x_total = manager.Value('i', 0)
@@ -60,8 +85,8 @@ if __name__ == "__main__":
                 x_total.value += x
                 y_total.value += y
 
-            print("Total numbers of wins for random play:", x_total.value)
-            print("Total numbers of wins for static play:", y_total.value)
+            print("Total numbers of wins for random game:", x_total.value)
+            print("Total numbers of wins for static game:", y_total.value)
 
     except KeyboardInterrupt:
         pass
